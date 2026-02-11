@@ -1,0 +1,515 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Online Shoes - Premium Footwear Collection</title>
+	<meta name="description"
+		content="Premium online shoe store with stylish collections and easy shopping experience." />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+	<!-- Header -->
+	<header class="site-header">
+		<div class="header-container">
+			<div class="logo">
+				<span class="logo-icon">👟</span>
+				<span class="logo-text">OnlineShoes</span>
+				<span class="logo-tagline">CURATED STORE</span>
+			</div>
+			<div class="search-bar">
+				<input type="text" placeholder="Search for shoes..." id="headerSearch" />
+				<button class="search-btn">🔍</button>
+			</div>
+			<nav class="nav-links">
+				<a href="index.html" class="active">Home</a>
+				<a href="product.html">Products</a>
+				<a href="cart.html">Cart</a>
+				<a href="login.html">Login</a>
+			</nav>
+			<div class="header-actions">
+				<a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+				<div class="theme-toggle" id="themeToggle">🌙</div>
+				<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+			</div>
+		</div>
+	</header>
+
+	<!-- Mobile Navigation -->
+	<nav class="mobile-nav" id="mobileNav">
+		<div class="mobile-nav-links">
+			<a href="index.html" class="active"><span class="nav-icon">🏠</span> Home</a>
+			<a href="product.html"><span class="nav-icon">👟</span> Products</a>
+			<a href="cart.html"><span class="nav-icon">🛒</span> Cart</a>
+			<a href="login.html"><span class="nav-icon">👤</span> Login</a>
+			<a href="signup.html"><span class="nav-icon">✨</span> Sign Up</a>
+		</div>
+	</nav>
+
+	<!-- Hero Section - Full Screen -->
+	<section class="hero-fullscreen">
+		<div class="hero-bg">
+			<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&q=80" alt="Hero Shoe"
+				class="hero-bg-img" />
+			<div class="hero-overlay"></div>
+		</div>
+		<div class="hero-content">
+			<div class="hero-badge">✨ EXCLUSIVE PICKS - Limited styles added weekly</div>
+			<h1>Step into a <span class="highlight">Curated Collection</span></h1>
+			<p>Premium comfort, bold silhouettes, and everyday essentials. Discover styles for every stride.</p>
+			<div class="hero-buttons">
+				<a href="product.html" class="btn btn-primary">Shop New Arrivals</a>
+				<a href="signup.html" class="btn btn-secondary">Create Account</a>
+			</div>
+		</div>
+		<div class="hero-scroll-indicator">
+			<span>Scroll Down</span>
+			<div class="scroll-arrow">↓</div>
+		</div>
+	</section>
+
+	<!-- Categories Section -->
+	<section class="categories-section">
+		<div class="container">
+			<h2 class="section-title">Shop by Category</h2>
+			<div class="category-grid">
+				<div class="category-card">
+					<img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&q=80" alt="Men's Shoes" />
+					<div class="category-overlay">
+						<h3>Men</h3>
+						<span>120+ Styles</span>
+					</div>
+				</div>
+				<div class="category-card">
+					<img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&q=80"
+						alt="Women's Shoes" />
+					<div class="category-overlay">
+						<h3>Women</h3>
+						<span>150+ Styles</span>
+					</div>
+				</div>
+				<div class="category-card">
+					<img src="https://images.unsplash.com/photo-1555274175-75f79b09d5b8?w=400&q=80" alt="Kids Shoes" />
+					<div class="category-overlay">
+						<h3>Kids</h3>
+						<span>80+ Styles</span>
+					</div>
+				</div>
+				<div class="category-card">
+					<img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&q=80"
+						alt="Sports Shoes" />
+					<div class="category-overlay">
+						<h3>Sports</h3>
+						<span>200+ Styles</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Featured Products Section -->
+	<section class="featured-section">
+		<div class="container">
+			<div class="section-header">
+				<h2 class="section-title">Featured Products</h2>
+				<a href="product.html" class="view-all">View All →</a>
+			</div>
+			<div class="product-grid">
+				<!-- Product 1 -->
+				<div class="product-card" data-id="1" data-name="Sport Max" data-category="sport">
+					<div class="product-badge">NEW</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80"
+							alt="Running Pro X1" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">SPORT MAX</span>
+						<h3>Running Pro X1</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(128)</span></div>
+						<div class="product-price">
+							<span class="current-price">$149.99</span>
+							<span class="old-price">$199.99</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Add to Cart</button>
+				</div>
+
+				<!-- Product 2 -->
+				<div class="product-card" data-id="2" data-name="Kid Sprint" data-category="kids">
+					<div class="product-badge sale">SALE</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&q=80"
+							alt="Junior Active" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">KID SPRINT</span>
+						<h3>Junior Active</h3>
+						<div class="product-rating">⭐⭐⭐⭐ <span>(89)</span></div>
+						<div class="product-price">
+							<span class="current-price">$59.99</span>
+							<span class="old-price">$79.99</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Add to Cart</button>
+				</div>
+
+				<!-- Product 3 -->
+				<div class="product-card" data-id="3" data-name="Urban Lite" data-category="casual">
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400&q=80"
+							alt="Urban Lite" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">URBAN LITE</span>
+						<h3>Canvas Classic</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(215)</span></div>
+						<div class="product-price">
+							<span class="current-price">$89.99</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Add to Cart</button>
+				</div>
+
+				<!-- Product 4 -->
+				<div class="product-card" data-id="4" data-name="Sky Walk" data-category="premium">
+					<div class="product-badge hot">HOT</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400&q=80"
+							alt="Sky Walk" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">SKY WALK</span>
+						<h3>Air Comfort Elite</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(342)</span></div>
+						<div class="product-price">
+							<span class="current-price">$179.99</span>
+							<span class="old-price">$229.99</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Add to Cart</button>
+				</div>
+
+				<!-- Product 5 -->
+				<div class="product-card" data-id="13" data-name="Nike" data-category="sport">
+					<div class="product-badge affiliate">AFFILIATE</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=400&q=80"
+							alt="Nike Air Max 270" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">NIKE</span>
+						<h3>Nike Air Max 270</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(2548)</span></div>
+						<div class="product-price">
+							<span class="current-price">$150.00</span>
+							<span class="old-price">$180.00</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Buy on Amazon</button>
+				</div>
+
+				<!-- Product 6 -->
+				<div class="product-card" data-id="6" data-name="Trail Blazer" data-category="outdoor">
+					<div class="product-badge">NEW</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&q=80"
+							alt="Trail Blazer" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">OUTDOOR</span>
+						<h3>Trail Blazer X</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(189)</span></div>
+						<div class="product-price">
+							<span class="current-price">$159.99</span>
+							<span class="old-price">$189.99</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Add to Cart</button>
+				</div>
+
+				<!-- Product 7 -->
+				<div class="product-card" data-id="17" data-name="Converse" data-category="casual">
+					<div class="product-badge affiliate">AFFILIATE</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1463100099107-aa0980c362e6?w=400&q=80"
+							alt="Converse Chuck Taylor" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">CONVERSE</span>
+						<h3>Chuck Taylor All Star</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(3421)</span></div>
+						<div class="product-price">
+							<span class="current-price">$65.00</span>
+							<span class="old-price">$80.00</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Buy on Myntra</button>
+				</div>
+
+				<!-- Product 8 -->
+				<div class="product-card" data-id="8" data-name="Flex Motion" data-category="sport">
+					<div class="product-badge sale">30% OFF</div>
+					<div class="product-image">
+						<img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80"
+							alt="Flex Motion" />
+						<div class="product-actions">
+							<button class="action-btn wishlist">♡</button>
+							<button class="action-btn quick-view">👁</button>
+						</div>
+					</div>
+					<div class="product-info">
+						<span class="product-category">SPORT</span>
+						<h3>Flex Motion Pro</h3>
+						<div class="product-rating">⭐⭐⭐⭐⭐ <span>(267)</span></div>
+						<div class="product-price">
+							<span class="current-price">$119.99</span>
+							<span class="old-price">$169.99</span>
+						</div>
+					</div>
+					<button class="add-to-cart-btn">Add to Cart</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Promo Banner -->
+	<section class="promo-banner">
+		<div class="promo-content">
+			<h2>Get 20% Off Your First Order</h2>
+			<p>Sign up for our newsletter and receive exclusive deals and early access to new arrivals.</p>
+			<div class="promo-form">
+				<input type="email" placeholder="Enter your email" />
+				<button class="btn btn-primary">Subscribe</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- Features Section -->
+	<section class="features-section">
+		<div class="container">
+			<div class="features-grid">
+				<div class="feature-item">
+					<div class="feature-icon">🚚</div>
+					<h3>Free Shipping</h3>
+					<p>On orders over $50</p>
+				</div>
+				<div class="feature-item">
+					<div class="feature-icon">↩️</div>
+					<h3>Easy Returns</h3>
+					<p>30-day return policy</p>
+				</div>
+				<div class="feature-item">
+					<div class="feature-icon">🔒</div>
+					<h3>Secure Payment</h3>
+					<p>100% secure checkout</p>
+				</div>
+				<div class="feature-item">
+					<div class="feature-icon">💬</div>
+					<h3>24/7 Support</h3>
+					<p>Dedicated customer service</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="site-footer">
+		<div class="footer-container">
+			<div class="footer-section">
+				<h4>OnlineShoes</h4>
+				<p>Your destination for premium footwear. Quality meets style.</p>
+				<div class="social-links">
+					<a href="#">📘</a>
+					<a href="#">📸</a>
+					<a href="#">🐦</a>
+					<a href="#">📌</a>
+				</div>
+			</div>
+			<div class="footer-section">
+				<h4>Quick Links</h4>
+				<a href="index.html">Home</a>
+				<a href="product.html">Products</a>
+				<a href="#">About Us</a>
+				<a href="#">Contact</a>
+			</div>
+			<div class="footer-section">
+				<h4>Customer Service</h4>
+				<a href="#">FAQ</a>
+				<a href="#">Shipping Info</a>
+				<a href="#">Returns</a>
+				<a href="#">Size Guide</a>
+			</div>
+			<div class="footer-section">
+				<h4>Contact Us</h4>
+				<p>📧 support@onlineshoes.com</p>
+				<p>📞 +1 (555) 123-4567</p>
+				<p>📍 123 Shoe Street, Fashion City</p>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<div class="affiliate-global-disclosure">
+				<p>👟 <strong>Affiliate Disclosure:</strong> This site contains affiliate links. We may earn a
+					commission from qualifying purchases made through these links at no extra cost to you.</p>
+			</div>
+			<p>&copy; 2026 OnlineShoes. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script src="js/data.js"></script>
+	<script src="js/app.js"></script>
+	<script>
+		// Home page specific functionality
+		document.addEventListener('DOMContentLoaded', () => {
+			// Initialize data
+			initializeData();
+
+			// Header search
+			const headerSearch = document.getElementById('headerSearch');
+			const searchBtn = document.querySelector('.search-btn');
+
+			function performSearch() {
+				const query = headerSearch.value.trim();
+				if (query) {
+					window.location.href = `product.html?search=${encodeURIComponent(query)}`;
+				}
+			}
+
+			searchBtn.addEventListener('click', performSearch);
+			headerSearch.addEventListener('keypress', (e) => {
+				if (e.key === 'Enter') performSearch();
+			});
+
+			// Product Actions (Cart, Wishlist, Quick View)
+			const productCards = document.querySelectorAll('.product-card');
+
+			productCards.forEach(card => {
+				// Assuming we have data-id on the card or can get it from index + 1
+				// Let's add data-id to the HTML cards if not already there, 
+				// or use the current hardcoded IDs (1-8)
+				const id = card.dataset.id ? parseInt(card.dataset.id) : null;
+				if (!id) return;
+
+				const product = getProduct(id);
+				if (!product) return;
+
+				// Cart button handling
+				const cartBtn = card.querySelector('.add-to-cart-btn');
+				if (cartBtn) {
+					// Check if it's an affiliate product
+					if (product.productType === 'affiliate') {
+						cartBtn.textContent = `Buy on ${product.affiliatePlatform}`;
+						cartBtn.classList.add('affiliate-btn');
+						cartBtn.addEventListener('click', (e) => {
+							e.preventDefault();
+							trackAffiliateClick(product.id, product.affiliatePlatform);
+							showNotification(`Redirecting to ${product.affiliatePlatform}...`, 'info');
+							setTimeout(() => window.open(product.affiliateUrl, '_blank'), 500);
+						});
+					} else {
+						cartBtn.addEventListener('click', (e) => {
+							e.preventDefault();
+							addToCart(product.id, product.name, product.price, product.image, product.sizes[0]);
+						});
+					}
+				}
+
+				// Wishlist handling
+				const wishlistBtn = card.querySelector('.action-btn.wishlist');
+				if (wishlistBtn) {
+					wishlistBtn.addEventListener('click', (e) => {
+						e.preventDefault();
+						toggleWishlist(product.id, wishlistBtn);
+					});
+					// Initial state
+					if (isInWishlist(product.id)) {
+						wishlistBtn.textContent = '♥';
+						wishlistBtn.style.color = '#e74c3c';
+					}
+				}
+
+				// Quick view / Detail click
+				const quickViewBtn = card.querySelector('.action-btn.quick-view');
+				if (quickViewBtn) {
+					if (product.productType === 'affiliate') {
+						quickViewBtn.remove(); // Remove quick view for affiliate
+					} else {
+						quickViewBtn.addEventListener('click', (e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							window.location.href = `product-detail.html?id=${product.id}`;
+						});
+					}
+				}
+
+				// Image click handling - explicit redirect for affiliate
+				const imgContainer = card.querySelector('.product-image');
+				if (imgContainer) {
+					imgContainer.style.cursor = 'pointer';
+					imgContainer.addEventListener('click', (e) => {
+						// Don't trigger if clicked on actions
+						if (e.target.closest('.product-actions')) return;
+
+						if (product.productType === 'affiliate') {
+							trackAffiliateClick(product.id, product.affiliatePlatform);
+							window.open(product.affiliateUrl, '_blank');
+						} else {
+							window.location.href = `product-detail.html?id=${product.id}`;
+						}
+					});
+				}
+			});
+
+			// Newsletter form
+			const promoForm = document.querySelector('.promo-form');
+			if (promoForm) {
+				promoForm.addEventListener('submit', (e) => {
+					e.preventDefault();
+					const email = promoForm.querySelector('input').value;
+					if (email) {
+						showNotification('Thank you for subscribing!');
+						promoForm.querySelector('input').value = '';
+					}
+				});
+			}
+		});
+	</script>
+</body>
+
+</html>

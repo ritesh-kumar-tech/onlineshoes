@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop All Products - OnlineShoes</title>
+    <meta name="description"
+        content="Browse our complete collection of premium footwear. Filter by category, brand, and price." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">👟</span>
+                <span class="logo-text">OnlineShoes</span>
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for shoes..." id="headerSearch" />
+                <button class="search-btn">🔍</button>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="product.html" class="active">Products</a>
+                <a href="cart.html">Cart</a>
+                <a href="login.html">Login</a>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+                <div class="theme-toggle" id="themeToggle">🌙</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+            <a href="product.html" class="active"><span class="nav-icon">👟</span> Products</a>
+            <a href="cart.html"><span class="nav-icon">🛒</span> Cart</a>
+            <a href="login.html"><span class="nav-icon">👤</span> Login</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Shop All Products</h1>
+            <p>Discover our curated collection of premium footwear</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="shop-main">
+        <div class="container">
+            <div class="shop-layout">
+                <!-- Sidebar Filters -->
+                <aside class="shop-sidebar">
+                    <div class="filter-section">
+                        <h3>Categories</h3>
+                        <div class="filter-options" id="categoryFilters">
+                            <label><input type="checkbox" value="sport" /> Sports</label>
+                            <label><input type="checkbox" value="casual" /> Casual</label>
+                            <label><input type="checkbox" value="formal" /> Formal</label>
+                            <label><input type="checkbox" value="kids" /> Kids</label>
+                            <label><input type="checkbox" value="outdoor" /> Outdoor</label>
+                            <label><input type="checkbox" value="premium" /> Premium</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <div class="price-range">
+                            <input type="range" id="priceRange" min="0" max="300" value="300" />
+                            <div class="price-labels">
+                                <span>$0</span>
+                                <span id="priceValue">$300</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Size</h3>
+                        <div class="size-filters" id="sizeFilters">
+                            <button class="size-filter-btn" data-size="6">6</button>
+                            <button class="size-filter-btn" data-size="7">7</button>
+                            <button class="size-filter-btn" data-size="8">8</button>
+                            <button class="size-filter-btn" data-size="9">9</button>
+                            <button class="size-filter-btn" data-size="10">10</button>
+                            <button class="size-filter-btn" data-size="11">11</button>
+                            <button class="size-filter-btn" data-size="12">12</button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary clear-filters" id="clearFilters">Clear All Filters</button>
+                </aside>
+
+                <!-- Products Grid -->
+                <section class="shop-products">
+                    <div class="shop-toolbar">
+                        <span class="product-count" id="productCount">12 Products</span>
+                        <div class="sort-dropdown">
+                            <select id="sortSelect">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="newest">Newest</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="product-grid" id="productGrid">
+                        <!-- Products will be loaded dynamically -->
+                    </div>
+
+                    <div class="no-products" id="noProducts" style="display: none;">
+                        <h3>No products found</h3>
+                        <p>Try adjusting your filters or search terms.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>OnlineShoes</h4>
+                <p>Your destination for premium footwear.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="cart.html">Cart</a>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Shipping</a>
+                <a href="#">Returns</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📧 support@onlineshoes.com</p>
+                <p>📞 +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="affiliate-global-disclosure">
+                <p>👟 <strong>Affiliate Disclosure:</strong> This site contains affiliate links. We may earn a
+                    commission from qualifying purchases made through these links at no extra cost to you.</p>
+            </div>
+            <p>&copy; 2026 OnlineShoes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Product page specific functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            setupFilters();
+        });
+
+        let activeFilters = {
+            categories: [],
+            maxPrice: 300,
+            size: null,
+            search: ''
+        };
+
+        function loadProducts() {
+            const products = getProducts();
+            renderProducts(products);
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('productGrid');
+            const noProducts = document.getElementById('noProducts');
+            const countEl = document.getElementById('productCount');
+
+            // Apply filters
+            let filtered = products.filter(p => {
+                // Category filter
+                if (activeFilters.categories.length > 0 && !activeFilters.categories.includes(p.category)) {
+                    return false;
+                }
+                // Price filter
+                if (p.price > activeFilters.maxPrice) {
+                    return false;
+                }
+                // Size filter
+                if (activeFilters.size && !p.sizes.includes(parseInt(activeFilters.size))) {
+                    return false;
+                }
+                // Search filter
+                if (activeFilters.search) {
+                    const search = activeFilters.search.toLowerCase();
+                    return p.name.toLowerCase().includes(search) ||
+                        p.brand.toLowerCase().includes(search) ||
+                        p.category.toLowerCase().includes(search);
+                }
+                return true;
+            });
+
+            // Sort
+            const sortValue = document.getElementById('sortSelect')?.value || 'featured';
+            filtered = sortProducts(filtered, sortValue);
+
+            countEl.textContent = `${filtered.length} Product${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noProducts.style.display = 'block';
+                return;
+            }
+
+            noProducts.style.display = 'none';
+            grid.innerHTML = filtered.map(product => createProductCard(product)).join('');
+
+            // Attach event listeners
+            attachProductEvents();
+        }
+
+        function createProductCard(product) {
+            const stars = '⭐'.repeat(product.rating);
+            const isAffiliate = product.productType === 'affiliate' || product.isAffiliate === true;
+
+            // Badge HTML - show AFFILIATE badge for affiliate products
+            let badgeHtml = '';
+            if (isAffiliate) {
+                badgeHtml = `<div class="product-badge affiliate">AFFILIATE</div>`;
+            } else if (product.badge) {
+                const badgeClass = product.badge === 'SALE' || product.badge.includes('OFF') ? 'sale' : product.badge === 'HOT' ? 'hot' : '';
+                badgeHtml = `<div class="product-badge ${badgeClass}">${product.badge}</div>`;
+            }
+
+            const oldPriceHtml = product.originalPrice ?
+                `<span class="old-price">$${product.originalPrice.toFixed(2)}</span>` : '';
+
+            // Different button for affiliate vs normal products
+            let actionButton;
+            if (isAffiliate) {
+                actionButton = `<button class="add-to-cart-btn affiliate-btn" data-id="${product.id}" data-platform="${product.affiliatePlatform}" data-url="${product.affiliateUrl}">
+                    Buy on ${product.affiliatePlatform} <span style="margin-left:5px">↗</span>
+                </button>`;
+            } else {
+                actionButton = `<button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>`;
+            }
+
+            // Platform indicator for affiliate products
+            const platformIndicator = isAffiliate ?
+                `<div class="affiliate-platform" style="color: var(--color-accent); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem;">sold by ${product.affiliatePlatform}</div>` : '';
+
+            return `
+                <div class="product-card ${isAffiliate ? 'affiliate-product' : ''}" data-id="${product.id}">
+                    ${badgeHtml}
+                    <div class="product-image" style="cursor: pointer;">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy" />
+                        <div class="product-actions">
+                            <button class="action-btn wishlist" data-id="${product.id}" onclick="event.stopPropagation()">♡</button>
+                            ${!isAffiliate ? `<button class="action-btn quick-view" data-id="${product.id}" onclick="event.stopPropagation(); window.location.href='product-detail.html?id=${product.id}'">👁</button>` : ''}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${product.brand}</span>
+                        <h3>${product.name}</h3>
+                        ${platformIndicator}
+                        <div class="product-rating">${stars} <span>(${product.reviews})</span></div>
+                        <div class="product-price">
+                            <span class="current-price">$${product.price.toFixed(2)}</span>
+                            ${oldPriceHtml}
+                        </div>
+                    </div>
+                    ${actionButton}
+                </div>
+            `;
+        }
+
+        function sortProducts(products, sortBy) {
+            switch (sortBy) {
+                case 'price-low':
+                    return [...products].sort((a, b) => a.price - b.price);
+                case 'price-high':
+                    return [...products].sort((a, b) => b.price - a.price);
+                case 'rating':
+                    return [...products].sort((a, b) => b.rating - a.rating);
+                case 'newest':
+                    return [...products].sort((a, b) => b.id - a.id);
+                default:
+                    return [...products].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+            }
+        }
+
+        function setupFilters() {
+            // Category filters
+            document.querySelectorAll('#categoryFilters input').forEach(input => {
+                input.addEventListener('change', () => {
+                    if (input.checked) {
+                        activeFilters.categories.push(input.value);
+                    } else {
+                        activeFilters.categories = activeFilters.categories.filter(c => c !== input.value);
+                    }
+                    loadProducts();
+                });
+            });
+
+            // Price range
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+            priceRange?.addEventListener('input', () => {
+                activeFilters.maxPrice = parseInt(priceRange.value);
+                priceValue.textContent = `$${priceRange.value}`;
+                loadProducts();
+            });
+
+            // Size filters
+            document.querySelectorAll('.size-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-filter-btn').forEach(b => b.classList.remove('active'));
+                    if (activeFilters.size === btn.dataset.size) {
+                        activeFilters.size = null;
+                    } else {
+                        btn.classList.add('active');
+                        activeFilters.size = btn.dataset.size;
+                    }
+                    loadProducts();
+                });
+            });
+
+            // Sort
+            document.getElementById('sortSelect')?.addEventListener('change', loadProducts);
+
+            // Search
+            const headerSearch = document.getElementById('headerSearch');
+            headerSearch?.addEventListener('input', () => {
+                activeFilters.search = headerSearch.value;
+                loadProducts();
+            });
+
+            // Clear filters
+            document.getElementById('clearFilters')?.addEventListener('click', () => {
+                activeFilters = { categories: [], maxPrice: 300, size: null, search: '' };
+                document.querySelectorAll('#categoryFilters input').forEach(i => i.checked = false);
+                document.getElementById('priceRange').value = 300;
+                document.getElementById('priceValue').textContent = '$300';
+                document.querySelectorAll('.size-filter-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById('headerSearch').value = '';
+                loadProducts();
+            });
+
+            // URL search params
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            const categoryQuery = urlParams.get('category');
+            if (searchQuery) {
+                document.getElementById('headerSearch').value = searchQuery;
+                activeFilters.search = searchQuery;
+            }
+            if (categoryQuery) {
+                activeFilters.categories = [categoryQuery];
+                const checkbox = document.querySelector(`#categoryFilters input[value="${categoryQuery}"]`);
+                if (checkbox) checkbox.checked = true;
+            }
+        }
+
+        function attachProductEvents() {
+            // Add to cart for NORMAL products only
+            document.querySelectorAll('.add-to-cart-btn:not(.affiliate-btn)').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const product = getProduct(btn.dataset.id);
+                    if (product) {
+                        addToCart(product.id, product.name, product.price, product.image, product.sizes[0]);
+                    }
+                });
+            });
+
+            // AFFILIATE button clicks - track and redirect
+            document.querySelectorAll('.affiliate-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const productId = btn.dataset.id;
+                    const platform = btn.dataset.platform;
+                    const url = btn.dataset.url;
+
+                    // Track the click
+                    trackAffiliateClick(productId, platform);
+
+                    // Show notification
+                    showNotification(`Redirecting to ${platform}...`, 'info');
+
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        window.open(url, '_blank');
+                    }, 500);
+                });
+            });
+
+            // Wishlist
+            document.querySelectorAll('.action-btn.wishlist').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleWishlist(btn.dataset.id, btn);
+                });
+                // Check if in wishlist
+                const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                if (wishlist.includes(btn.dataset.id)) {
+                    btn.textContent = '❤️';
+                }
+            });
+
+            // Quick view - navigate to product detail
+            document.querySelectorAll('.action-btn.quick-view').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    window.location.href = `product-detail.html?id=${btn.dataset.id}`;
+                });
+            });
+
+            // Click on card
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Prevent if clicked on buttons or input elements
+                    if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.action-btn')) return;
+
+                    // Affiliate redirect logic
+                    if (card.classList.contains('affiliate-product')) {
+                        // Find the buy button to get URL
+                        const buyBtn = card.querySelector('.affiliate-btn');
+                        if (buyBtn) {
+                            const url = buyBtn.dataset.url;
+                            const pid = buyBtn.dataset.id;
+                            const plat = buyBtn.dataset.platform;
+                            trackAffiliateClick(pid, plat);
+                            window.open(url, '_blank');
+                        }
+                    } else {
+                        // Normal product - go to detail
+                        window.location.href = `product-detail.html?id=${card.dataset.id}`;
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,863 @@
+-- OnlineShop database setup
+IF DB_ID(N'OnlineShop') IS NULL
+BEGIN
+    CREATE DATABASE [OnlineShop];
+END
+GO
+
+USE [OnlineShop];
+GO
+
+-- Drop procedures if they exist
+IF OBJECT_ID('dbo.CATEMST_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.CATEMST_SELECT;
+IF OBJECT_ID('dbo.CATEMST_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.CATEMST_INSERT;
+IF OBJECT_ID('dbo.CATEMST_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.CATEMST_DELETE;
+IF OBJECT_ID('dbo.CATEMST_UPADATE', 'P') IS NOT NULL DROP PROCEDURE dbo.CATEMST_UPADATE;
+
+IF OBJECT_ID('dbo.ITEM_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT;
+IF OBJECT_ID('dbo.ITEM_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_INSERT;
+IF OBJECT_ID('dbo.ITEM_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_DELETE;
+IF OBJECT_ID('dbo.ITEM_UPDATE', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_UPDATE;
+IF OBJECT_ID('dbo.ITEM_SELECT_IID', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT_IID;
+IF OBJECT_ID('dbo.ITEM_UP', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_UP;
+IF OBJECT_ID('dbo.ITEM_UPDATE_SELL', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_UPDATE_SELL;
+IF OBJECT_ID('dbo.ITEMMST_ADDITEMQUANTITY', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEMMST_ADDITEMQUANTITY;
+IF OBJECT_ID('dbo.ITEM_SELECT_SEARCH', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT_SEARCH;
+IF OBJECT_ID('dbo.ITEM_SELECT_BY_CNAME', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT_BY_CNAME;
+IF OBJECT_ID('dbo.ITEM_SELECT_Iname', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT_Iname;
+IF OBJECT_ID('dbo.ITEM_SELECT_TOP4', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT_TOP4;
+IF OBJECT_ID('dbo.ITEM_SELECT_TOP7', 'P') IS NOT NULL DROP PROCEDURE dbo.ITEM_SELECT_TOP7;
+
+IF OBJECT_ID('dbo.ORDER_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT;
+IF OBJECT_ID('dbo.ORDERMST_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDERMST_INSERT;
+IF OBJECT_ID('dbo.ORDER_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_DELETE;
+IF OBJECT_ID('dbo.ORDER_UPDATE', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_UPDATE;
+IF OBJECT_ID('dbo.ORDER_UPDATE_CART', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_UPDATE_CART;
+IF OBJECT_ID('dbo.ORDER_UPDATE_CART_ALREADY_ADD', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_UPDATE_CART_ALREADY_ADD;
+IF OBJECT_ID('dbo.ORDER_UPDATE_STATUS_BY_NAME', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_UPDATE_STATUS_BY_NAME;
+IF OBJECT_ID('dbo.ORDER_SELECT_TOTAL_AMT_PAY', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT_TOTAL_AMT_PAY;
+IF OBJECT_ID('dbo.ORDER_SELECT_BY_OID', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT_BY_OID;
+IF OBJECT_ID('dbo.ORDER_SELECT_BY_UNAME', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT_BY_UNAME;
+IF OBJECT_ID('dbo.ORDER_SELECT_distinct_uname', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT_distinct_uname;
+IF OBJECT_ID('dbo.ORDER_SELECT_BY_Uname_ITEM', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT_BY_Uname_ITEM;
+IF OBJECT_ID('dbo.ORDER_SELECT_BY_Uname_Status', 'P') IS NOT NULL DROP PROCEDURE dbo.ORDER_SELECT_BY_Uname_Status;
+
+IF OBJECT_ID('dbo.PAYMENTMST_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.PAYMENTMST_SELECT;
+IF OBJECT_ID('dbo.PAYMENTMST_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.PAYMENTMST_INSERT;
+IF OBJECT_ID('dbo.PAYMENTMST_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.PAYMENTMST_DELETE;
+IF OBJECT_ID('dbo.PAYMENTMST_UPDATE', 'P') IS NOT NULL DROP PROCEDURE dbo.PAYMENTMST_UPDATE;
+IF OBJECT_ID('dbo.PAYMENTMST_SELECT_BY_Uname', 'P') IS NOT NULL DROP PROCEDURE dbo.PAYMENTMST_SELECT_BY_Uname;
+IF OBJECT_ID('dbo.PAYMENT_SELECT_for_distict_uname', 'P') IS NOT NULL DROP PROCEDURE dbo.PAYMENT_SELECT_for_distict_uname;
+
+IF OBJECT_ID('dbo.FEEDBACKMSTR_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.FEEDBACKMSTR_SELECT;
+IF OBJECT_ID('dbo.FEEDBACKMSTR_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.FEEDBACKMSTR_INSERT;
+IF OBJECT_ID('dbo.FEEDBACKMSTR_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.FEEDBACKMSTR_DELETE;
+
+IF OBJECT_ID('dbo.ADMIN_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.ADMIN_SELECT;
+IF OBJECT_ID('dbo.ADMIN_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.ADMIN_INSERT;
+IF OBJECT_ID('dbo.ADMIN_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.ADMIN_DELETE;
+IF OBJECT_ID('dbo.ADMIN_CHANGE_PASSWORD', 'P') IS NOT NULL DROP PROCEDURE dbo.ADMIN_CHANGE_PASSWORD;
+IF OBJECT_ID('dbo.ADMIN_LOGIN', 'P') IS NOT NULL DROP PROCEDURE dbo.ADMIN_LOGIN;
+
+IF OBJECT_ID('dbo.USER_SELECT', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_SELECT;
+IF OBJECT_ID('dbo.USER_INSERT', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_INSERT;
+IF OBJECT_ID('dbo.USER_DELETE', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_DELETE;
+IF OBJECT_ID('dbo.USER_UPDATE', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_UPDATE;
+IF OBJECT_ID('dbo.USER_SELECT_by_email', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_SELECT_by_email;
+IF OBJECT_ID('dbo.USER_SELECT_FOR_FORGOT_PASS', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_SELECT_FOR_FORGOT_PASS;
+IF OBJECT_ID('dbo.USER_SELECT_FOR_LOGIN', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_SELECT_FOR_LOGIN;
+IF OBJECT_ID('dbo.USER_UPDATE_PASSWORD', 'P') IS NOT NULL DROP PROCEDURE dbo.USER_UPDATE_PASSWORD;
+GO
+
+-- Drop tables if they exist
+IF OBJECT_ID('dbo.ORDERMST', 'U') IS NOT NULL DROP TABLE dbo.ORDERMST;
+IF OBJECT_ID('dbo.PAYMENTMST', 'U') IS NOT NULL DROP TABLE dbo.PAYMENTMST;
+IF OBJECT_ID('dbo.FEEDBACKMSTR', 'U') IS NOT NULL DROP TABLE dbo.FEEDBACKMSTR;
+IF OBJECT_ID('dbo.ITEMMST', 'U') IS NOT NULL DROP TABLE dbo.ITEMMST;
+IF OBJECT_ID('dbo.CATEMST', 'U') IS NOT NULL DROP TABLE dbo.CATEMST;
+IF OBJECT_ID('dbo.USERMST', 'U') IS NOT NULL DROP TABLE dbo.USERMST;
+IF OBJECT_ID('dbo.ADMINMST', 'U') IS NOT NULL DROP TABLE dbo.ADMINMST;
+GO
+
+-- Create tables
+CREATE TABLE dbo.CATEMST (
+    CID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    CName NVARCHAR(200) NULL
+);
+
+CREATE TABLE dbo.ITEMMST (
+    IID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    IName NVARCHAR(256) NULL,
+    Detail NVARCHAR(500) NULL,
+    Price FLOAT NULL,
+    Image NVARCHAR(500) NULL,
+    Qnt INT NULL,
+    AQnt INT NULL,
+    SQnt INT NULL,
+    CName NVARCHAR(256) NULL,
+    EntryDate DATETIME NULL,
+    Image1 NVARCHAR(500) NULL,
+    Image2 NVARCHAR(500) NULL,
+    Size INT NULL
+);
+
+CREATE TABLE dbo.USERMST (
+    UID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(256) NULL,
+    Surname NVARCHAR(256) NULL,
+    Address NVARCHAR(256) NULL,
+    City NVARCHAR(256) NULL,
+    Pincode NVARCHAR(256) NULL,
+    Mobile NVARCHAR(256) NULL,
+    Email NVARCHAR(256) NULL,
+    Password NVARCHAR(256) NULL,
+    EntryDate DATETIME NULL
+);
+
+CREATE TABLE dbo.ORDERMST (
+    OID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Uname NVARCHAR(256) NULL,
+    Iname NVARCHAR(256) NULL,
+    Qnt INT NULL,
+    Price FLOAT NULL,
+    TPrice FLOAT NULL,
+    Status INT NULL,
+    EntryDate DATETIME NULL,
+    [image] NVARCHAR(500) NULL
+);
+
+CREATE TABLE dbo.PAYMENTMST (
+    PID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Uname NVARCHAR(256) NULL,
+    Amount FLOAT NULL,
+    [Type] NVARCHAR(256) NULL,
+    Bank NVARCHAR(256) NULL,
+    Branch NVARCHAR(256) NULL,
+    CardNo NVARCHAR(256) NULL,
+    CCV INT NULL,
+    EntryDate DATETIME NULL
+);
+
+CREATE TABLE dbo.FEEDBACKMSTR (
+    FID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Uname NVARCHAR(256) NULL,
+    Message NVARCHAR(256) NULL,
+    EntryDate DATETIME NULL
+);
+
+CREATE TABLE dbo.ADMINMST (
+    IID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Username NVARCHAR(200) NULL,
+    Password NVARCHAR(200) NULL
+);
+GO
+
+-- Category procedures
+CREATE PROCEDURE dbo.CATEMST_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT CID, CName FROM dbo.CATEMST ORDER BY CID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.CATEMST_INSERT
+    @CNAME NVARCHAR(200)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.CATEMST (CName) VALUES (@CNAME);
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.CATEMST_DELETE
+    @ID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.CATEMST WHERE CID = @ID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.CATEMST_UPADATE
+    @CID INT,
+    @CNAME NVARCHAR(200)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.CATEMST SET CName = @CNAME WHERE CID = @CID;
+    RETURN 0;
+END
+GO
+
+-- Item procedures
+CREATE PROCEDURE dbo.ITEM_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    ORDER BY IID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_INSERT
+    @NAME NVARCHAR(256),
+    @DETAIL NVARCHAR(500),
+    @PRICE FLOAT,
+    @IMg NVARCHAR(500),
+    @qnt INT,
+    @CNAME NVARCHAR(256),
+    @img1 NVARCHAR(500),
+    @img2 NVARCHAR(500),
+    @size INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.ITEMMST (IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size)
+    VALUES (@NAME, @DETAIL, @PRICE, @IMg, @qnt, @qnt, 0, @CNAME, GETDATE(), @img1, @img2, @size);
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_DELETE
+    @IID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.ITEMMST WHERE IID = @IID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_UPDATE
+    @IID INT,
+    @NAME NVARCHAR(256),
+    @DETAIL NVARCHAR(500),
+    @PRICE FLOAT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ITEMMST
+    SET IName = @NAME,
+        Detail = @DETAIL,
+        Price = @PRICE
+    WHERE IID = @IID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_SELECT_IID
+    @IID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    WHERE IID = @IID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_UP
+    @IID INT,
+    @INAME NVARCHAR(256),
+    @PRICE FLOAT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ITEMMST
+    SET IName = @INAME,
+        Price = @PRICE
+    WHERE IID = @IID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_UPDATE_SELL
+    @iname NVARCHAR(256),
+    @QNT INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ITEMMST
+    SET AQnt = ISNULL(AQnt, 0) - @QNT,
+        SQnt = ISNULL(SQnt, 0) + @QNT
+    WHERE IName = @iname;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEMMST_ADDITEMQUANTITY
+    @IID INT,
+    @QNT INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ITEMMST
+    SET Qnt = ISNULL(Qnt, 0) + @QNT,
+        AQnt = ISNULL(AQnt, 0) + @QNT
+    WHERE IID = @IID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_SELECT_SEARCH
+    @name NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    WHERE IName LIKE '%' + @name + '%'
+    ORDER BY IID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_SELECT_BY_CNAME
+    @cname NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    WHERE CName = @cname
+    ORDER BY IID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_SELECT_Iname
+    @iname NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    WHERE IName = @iname;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_SELECT_TOP4
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT TOP 8 IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    ORDER BY IID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ITEM_SELECT_TOP7
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT TOP 7 IID, IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size
+    FROM dbo.ITEMMST
+    ORDER BY IID DESC;
+    RETURN 0;
+END
+GO
+
+-- Order procedures
+CREATE PROCEDURE dbo.ORDER_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT OID, Uname, Iname, Qnt, Price, TPrice, Status, EntryDate, [image]
+    FROM dbo.ORDERMST
+    ORDER BY OID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDERMST_INSERT
+    @UNAME NVARCHAR(256),
+    @INAME NVARCHAR(256),
+    @QNT NVARCHAR(256),
+    @PRICE NVARCHAR(256),
+    @TPRICE NVARCHAR(256),
+    @STATUS NVARCHAR(256),
+    @img NVARCHAR(500)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @QNTI INT = TRY_CONVERT(INT, @QNT);
+    DECLARE @PRICEF FLOAT = TRY_CONVERT(FLOAT, @PRICE);
+    DECLARE @TPRICEF FLOAT = TRY_CONVERT(FLOAT, @TPRICE);
+    DECLARE @STATUSI INT = TRY_CONVERT(INT, @STATUS);
+
+    INSERT INTO dbo.ORDERMST (Uname, Iname, Qnt, Price, TPrice, Status, EntryDate, [image])
+    VALUES (@UNAME, @INAME, @QNTI, @PRICEF, @TPRICEF, @STATUSI, GETDATE(), @img);
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_DELETE
+    @ID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.ORDERMST WHERE OID = @ID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_UPDATE
+    @OID INT,
+    @INAME NVARCHAR(256),
+    @QNT INT,
+    @PRICE FLOAT,
+    @TPRICE FLOAT,
+    @STATUS INT,
+    @ENTRYDATE DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ORDERMST
+    SET Iname = @INAME,
+        Qnt = @QNT,
+        Price = @PRICE,
+        TPrice = @TPRICE,
+        Status = @STATUS,
+        EntryDate = @ENTRYDATE
+    WHERE OID = @OID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_UPDATE_CART
+    @oid INT,
+    @qnt INT,
+    @tprice FLOAT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ORDERMST
+    SET Qnt = ISNULL(Qnt, 0) + @qnt,
+        TPrice = ISNULL(TPrice, 0) + @tprice
+    WHERE OID = @oid;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_UPDATE_CART_ALREADY_ADD
+    @oid INT,
+    @qnt INT,
+    @tprice FLOAT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ORDERMST
+    SET Qnt = @qnt,
+        TPrice = @tprice
+    WHERE OID = @oid;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_UPDATE_STATUS_BY_NAME
+    @uname NVARCHAR(256),
+    @status INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ORDERMST
+    SET Status = @status
+    WHERE Uname = @uname AND Status = 0;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_SELECT_TOTAL_AMT_PAY
+    @uname NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT SUM(ISNULL(TPrice, 0)) AS tprice
+    FROM dbo.ORDERMST
+    WHERE Uname = @uname AND Status = 0;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_SELECT_BY_OID
+    @oid INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT OID, Uname, Iname, Qnt, Price, TPrice, Status, EntryDate, [image]
+    FROM dbo.ORDERMST
+    WHERE OID = @oid;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_SELECT_BY_UNAME
+    @uname NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT OID, Uname, Iname, Qnt, Price, TPrice, Status, EntryDate, [image]
+    FROM dbo.ORDERMST
+    WHERE Uname = @uname
+    ORDER BY OID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_SELECT_distinct_uname
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT DISTINCT Uname FROM dbo.ORDERMST;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_SELECT_BY_Uname_ITEM
+    @uname NVARCHAR(256),
+    @iname NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT OID, Uname, Iname, Qnt, Price, TPrice, Status, EntryDate, [image]
+    FROM dbo.ORDERMST
+    WHERE Uname = @uname AND Iname = @iname AND Status = 0;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ORDER_SELECT_BY_Uname_Status
+    @uname NVARCHAR(256),
+    @status INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT OID, Uname, Iname, Qnt, Price, TPrice, Status, EntryDate, [image]
+    FROM dbo.ORDERMST
+    WHERE Uname = @uname AND Status = @status
+    ORDER BY OID DESC;
+    RETURN 0;
+END
+GO
+
+-- Payment procedures
+CREATE PROCEDURE dbo.PAYMENTMST_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT PID, Uname, Amount, [Type], Bank, Branch, CardNo, CCV, EntryDate
+    FROM dbo.PAYMENTMST
+    ORDER BY PID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.PAYMENTMST_INSERT
+    @UNAME NVARCHAR(256),
+    @AMOUNT FLOAT,
+    @TYPE NVARCHAR(256),
+    @BANK NVARCHAR(256),
+    @BRANCH NVARCHAR(256),
+    @CARDNO NVARCHAR(256),
+    @CCV INT,
+    @ENTRYDATE DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.PAYMENTMST (Uname, Amount, [Type], Bank, Branch, CardNo, CCV, EntryDate)
+    VALUES (@UNAME, @AMOUNT, @TYPE, @BANK, @BRANCH, @CARDNO, @CCV, @ENTRYDATE);
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.PAYMENTMST_DELETE
+    @PID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.PAYMENTMST WHERE PID = @PID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.PAYMENTMST_UPDATE
+    @PID INT,
+    @UNAME NVARCHAR(256),
+    @AMOUNT FLOAT,
+    @TYPE NVARCHAR(256),
+    @ENTRYDATE DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.PAYMENTMST
+    SET Uname = @UNAME,
+        Amount = @AMOUNT,
+        [Type] = @TYPE,
+        EntryDate = @ENTRYDATE
+    WHERE PID = @PID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.PAYMENTMST_SELECT_BY_Uname
+    @uname NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT PID, Uname, Amount, [Type], Bank, Branch, CardNo, CCV, EntryDate
+    FROM dbo.PAYMENTMST
+    WHERE Uname = @uname
+    ORDER BY PID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.PAYMENT_SELECT_for_distict_uname
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT DISTINCT Uname FROM dbo.PAYMENTMST;
+    RETURN 0;
+END
+GO
+
+-- Feedback procedures
+CREATE PROCEDURE dbo.FEEDBACKMSTR_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT FID, Uname, Message, EntryDate
+    FROM dbo.FEEDBACKMSTR
+    ORDER BY FID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.FEEDBACKMSTR_INSERT
+    @UNAME NVARCHAR(256),
+    @MESSAGE NVARCHAR(256),
+    @ENTRYDATE DATETIME
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.FEEDBACKMSTR (Uname, Message, EntryDate)
+    VALUES (@UNAME, @MESSAGE, @ENTRYDATE);
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.FEEDBACKMSTR_DELETE
+    @FID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.FEEDBACKMSTR WHERE FID = @FID;
+    RETURN 0;
+END
+GO
+
+-- Admin procedures
+CREATE PROCEDURE dbo.ADMIN_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, Username, Password FROM dbo.ADMINMST ORDER BY IID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ADMIN_INSERT
+    @USERNAME NVARCHAR(200),
+    @PASSWORD NVARCHAR(200)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.ADMINMST (Username, Password) VALUES (@USERNAME, @PASSWORD);
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ADMIN_DELETE
+    @ID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.ADMINMST WHERE IID = @ID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ADMIN_CHANGE_PASSWORD
+    @NAME NVARCHAR(200),
+    @PASSWORD NVARCHAR(200)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.ADMINMST SET Password = @PASSWORD WHERE Username = @NAME;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.ADMIN_LOGIN
+    @USERNAME NVARCHAR(200),
+    @PASSWORD NVARCHAR(200)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT IID, Username, Password
+    FROM dbo.ADMINMST
+    WHERE Username = @USERNAME AND Password = @PASSWORD;
+    RETURN 0;
+END
+GO
+
+-- User procedures
+CREATE PROCEDURE dbo.USER_SELECT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT UID, Name, Surname, Address, City, Pincode, Mobile, Email, Password, EntryDate
+    FROM dbo.USERMST
+    ORDER BY UID DESC;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_INSERT
+    @NAME NVARCHAR(256),
+    @SURNAME NVARCHAR(256),
+    @ADD NVARCHAR(256),
+    @CITY NVARCHAR(256),
+    @PIN NVARCHAR(256),
+    @MOB NVARCHAR(256),
+    @EMAIL NVARCHAR(256),
+    @PASS NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.USERMST (Name, Surname, Address, City, Pincode, Mobile, Email, Password, EntryDate)
+    VALUES (@NAME, @SURNAME, @ADD, @CITY, @PIN, @MOB, @EMAIL, @PASS, GETDATE());
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_DELETE
+    @UID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.USERMST WHERE UID = @UID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_UPDATE
+    @UID INT,
+    @NAME NVARCHAR(256),
+    @SURNAME NVARCHAR(256),
+    @ADD NVARCHAR(256),
+    @CITY NVARCHAR(256),
+    @PIN NVARCHAR(256),
+    @MOB NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.USERMST
+    SET Name = @NAME,
+        Surname = @SURNAME,
+        Address = @ADD,
+        City = @CITY,
+        Pincode = @PIN,
+        Mobile = @MOB
+    WHERE UID = @UID;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_SELECT_by_email
+    @email NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT UID, Name, Surname, Address, City, Pincode, Mobile, Email, Password, EntryDate
+    FROM dbo.USERMST
+    WHERE Email = @email;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_SELECT_FOR_FORGOT_PASS
+    @email NVARCHAR(256),
+    @mobile NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT UID, Name, Surname, Address, City, Pincode, Mobile, Email, Password, EntryDate
+    FROM dbo.USERMST
+    WHERE Email = @email AND Mobile = @mobile;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_SELECT_FOR_LOGIN
+    @UNAME NVARCHAR(256),
+    @UPASS NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT UID, Name, Surname, Address, City, Pincode, Mobile, Email, Password, EntryDate
+    FROM dbo.USERMST
+    WHERE Email = @UNAME AND Password = @UPASS;
+    RETURN 0;
+END
+GO
+
+CREATE PROCEDURE dbo.USER_UPDATE_PASSWORD
+    @email NVARCHAR(256),
+    @PASS NVARCHAR(256)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.USERMST SET Password = @PASS WHERE Email = @email;
+    RETURN 0;
+END
+GO
+
+-- Seed data
+INSERT INTO dbo.CATEMST (CName) VALUES
+('Men'),
+('Women'),
+('Kids'),
+('Sports');
+
+INSERT INTO dbo.ADMINMST (Username, Password) VALUES
+('admin', 'admin123');
+
+INSERT INTO dbo.USERMST (Name, Surname, Address, City, Pincode, Mobile, Email, Password, EntryDate) VALUES
+('John', 'Doe', '123 Main St', 'Sample City', '123456', '9999999999', 'john@example.com', 'password', GETDATE());
+
+INSERT INTO dbo.ITEMMST (IName, Detail, Price, Image, Qnt, AQnt, SQnt, CName, EntryDate, Image1, Image2, Size) VALUES
+('Runner One', 'Lightweight running shoe', 59.99, '~/img/i1.jpg', 20, 20, 0, 'Men', GETDATE(), '~/img/i2.jpg', '~/img/i3.jpg', 8),
+('Street Flex', 'Everyday casual sneaker', 49.99, '~/img/i4.jpg', 15, 15, 0, 'Men', GETDATE(), '~/img/i5.jpg', '~/img/i1.jpg', 9),
+('Sky Walk', 'Comfort fit for long walks', 69.99, '~/img/s1.jpg', 12, 12, 0, 'Women', GETDATE(), '~/img/s2.jpg', '~/img/s3.jpg', 7),
+('Urban Lite', 'Breathable mesh upper', 54.50, '~/img/s4.jpg', 18, 18, 0, 'Women', GETDATE(), '~/img/s5.jpg', '~/img/s1.jpg', 6),
+('Kid Sprint', 'Durable kids running shoe', 39.99, '~/img/n1.jpg', 25, 25, 0, 'Kids', GETDATE(), '~/img/n2.jpg', '~/img/n3.jpg', 4),
+('Sport Max', 'Training shoe with grip', 79.00, '~/img/n4.jpg', 10, 10, 0, 'Sports', GETDATE(), '~/img/n5.jpg', '~/img/n1.jpg', 10),
+('Cloud Pace', 'Soft foam midsole for daily runs', 64.00, '~/img/i2.jpg', 22, 22, 0, 'Men', GETDATE(), '~/img/i3.jpg', '~/img/i4.jpg', 9),
+('Trail Forge', 'Grippy outsole for rugged paths', 88.00, '~/img/i5.jpg', 14, 14, 0, 'Men', GETDATE(), '~/img/i1.jpg', '~/img/i2.jpg', 10),
+('Velvet Step', 'Sleek leather finish', 96.50, '~/img/s2.jpg', 9, 9, 0, 'Women', GETDATE(), '~/img/s3.jpg', '~/img/s4.jpg', 7),
+('Studio Flow', 'Flexible shoe for studio workouts', 58.00, '~/img/s5.jpg', 16, 16, 0, 'Women', GETDATE(), '~/img/s1.jpg', '~/img/s2.jpg', 6),
+('Mini Trek', 'Rugged build for playtime', 42.00, '~/img/n2.jpg', 20, 20, 0, 'Kids', GETDATE(), '~/img/n3.jpg', '~/img/n4.jpg', 4),
+('Comet Junior', 'Lightweight shoe for school', 36.50, '~/img/n5.jpg', 24, 24, 0, 'Kids', GETDATE(), '~/img/n1.jpg', '~/img/n2.jpg', 5),
+('Sprint Elite', 'Performance cushion with stability', 92.00, '~/img/c1.jpg', 11, 11, 0, 'Sports', GETDATE(), '~/img/c2.jpg', '~/img/c3.jpg', 10),
+('Velocity Pro', 'Breathable race day fit', 110.00, '~/img/c2.jpg', 8, 8, 0, 'Sports', GETDATE(), '~/img/c3.jpg', '~/img/c1.jpg', 11);
+GO

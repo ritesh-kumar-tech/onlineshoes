@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details - OnlineShoes</title>
+    <meta name="description" content="View product details, select size, and add to cart." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">👟</span>
+                <span class="logo-text">OnlineShoes</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="cart.html">Cart</a>
+                <a href="login.html">Login</a>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+                <div class="theme-toggle" id="themeToggle">🌙</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+            <a href="product.html"><span class="nav-icon">👟</span> Products</a>
+            <a href="cart.html"><span class="nav-icon">🛒</span> Cart</a>
+            <a href="login.html"><span class="nav-icon">👤</span> Login</a>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> /
+            <a href="product.html">Products</a> /
+            <span id="breadcrumbProduct">Product</span>
+        </div>
+    </nav>
+
+    <!-- Product Detail -->
+    <main class="product-detail-main">
+        <div class="container">
+            <div class="product-detail" id="productDetail">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Related Products -->
+    <section class="related-section">
+        <div class="container">
+            <h2 class="section-title">You May Also Like</h2>
+            <div class="product-grid" id="relatedProducts"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 OnlineShoes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (productId) {
+                loadProductDetail(productId);
+            } else {
+                window.location.href = 'product.html';
+            }
+        });
+
+        let selectedSize = null;
+        let selectedColor = null;
+        let quantity = 1;
+
+        function loadProductDetail(id) {
+            const product = getProduct(id);
+            if (!product) {
+                document.getElementById('productDetail').innerHTML = '<p>Product not found.</p>';
+                return;
+            }
+
+            document.title = `${product.name} - OnlineShoes`;
+            document.getElementById('breadcrumbProduct').textContent = product.name;
+
+            const stars = '⭐'.repeat(product.rating);
+            const oldPriceHtml = product.originalPrice ?
+                `<span class="detail-old-price">$${product.originalPrice.toFixed(2)}</span>` : '';
+            const discount = product.originalPrice ?
+                Math.round((1 - product.price / product.originalPrice) * 100) : 0;
+            const discountBadge = discount > 0 ?
+                `<span class="discount-badge">${discount}% OFF</span>` : '';
+
+            // Check if product is affiliate
+            const isAffiliate = product.productType === 'affiliate' || product.isAffiliate === true;
+
+            // Affiliate badge
+            const affiliateBadge = isAffiliate ?
+                `<div class="affiliate-indicator">
+                    <span class="affiliate-badge-large">🔗 Affiliate Product</span>
+                    <span class="affiliate-platform-badge">Available on ${product.affiliatePlatform}</span>
+                </div>` : '';
+
+            // Options section - only for normal products
+            const optionsHtml = isAffiliate ? '' : `
+                <div class="detail-options">
+                    <div class="option-group">
+                        <label>Color</label>
+                        <div class="color-options">
+                            ${product.colors.map((color, i) => `
+                                <button class="color-btn ${i === 0 ? 'active' : ''}" 
+                                        data-color="${color}" 
+                                        onclick="selectColor('${color}', this)"
+                                        style="background: ${getColorCode(color)};"
+                                        title="${color}"></button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label>Size</label>
+                        <div class="size-options">
+                            ${product.sizes.map((size, i) => `
+                                <button class="size-btn ${i === 0 ? 'active' : ''}" 
+                                        data-size="${size}"
+                                        onclick="selectSize(${size}, this)">${size}</button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label>Quantity</label>
+                        <div class="quantity-selector">
+                            <button onclick="updateQty(-1)">−</button>
+                            <span id="qtyDisplay">1</span>
+                            <button onclick="updateQty(1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Action buttons - different for affiliate vs normal
+            let actionButtons;
+            if (isAffiliate) {
+                actionButtons = `
+                    <div class="detail-actions">
+                        <button class="btn btn-primary add-cart-btn affiliate-buy-btn" onclick="buyOnAffiliate(${product.id}, '${product.affiliatePlatform}', '${product.affiliateUrl}')">
+                            🛒 Buy on ${product.affiliatePlatform} - $${product.price.toFixed(2)}
+                        </button>
+                        <button class="btn btn-secondary wishlist-btn" onclick="toggleWishlistBtn(${product.id})">
+                            <span id="wishlistIcon">${isInWishlist(product.id) ? '❤️' : '♡'}</span> Wishlist
+                        </button>
+                    </div>
+                    <div class="affiliate-disclosure">
+                        <p>⚠️ <strong>Affiliate Disclosure:</strong> This is an affiliate product. You will be redirected to ${product.affiliatePlatform} to complete your purchase. We may earn a commission at no extra cost to you.</p>
+                    </div>
+                `;
+            } else {
+                actionButtons = `
+                    <div class="detail-actions">
+                        <button class="btn btn-primary add-cart-btn" onclick="addProductToCart(${product.id})">
+                            Add to Cart - $<span id="totalPrice">${product.price.toFixed(2)}</span>
+                        </button>
+                        <button class="btn btn-secondary wishlist-btn" onclick="toggleWishlistBtn(${product.id})">
+                            <span id="wishlistIcon">${isInWishlist(product.id) ? '❤️' : '♡'}</span> Wishlist
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Features section - different for affiliate
+            const featuresHtml = isAffiliate ? `
+                <div class="detail-features affiliate-features">
+                    <div class="feature"><span>🔗</span> Sold by ${product.affiliatePlatform}</div>
+                    <div class="feature"><span>🚚</span> Shipping handled by ${product.affiliatePlatform}</div>
+                    <div class="feature"><span>💳</span> Pay securely on ${product.affiliatePlatform}</div>
+                    <div class="feature"><span>↩️</span> Returns as per ${product.affiliatePlatform} policy</div>
+                </div>
+            ` : `
+                <div class="detail-features">
+                    <div class="feature"><span>🚚</span> Free Shipping on orders over $50</div>
+                    <div class="feature"><span>↩️</span> 30-Day Easy Returns</div>
+                    <div class="feature"><span>✓</span> In Stock: ${product.stock} available</div>
+                </div>
+            `;
+
+            document.getElementById('productDetail').innerHTML = `
+                <div class="detail-gallery">
+                    <div class="main-image">
+                        <img src="${product.image}" alt="${product.name}" id="mainImage" />
+                    </div>
+                    <div class="thumbnail-row">
+                        ${product.images.map((img, i) => `
+                            <img src="${img}" alt="View ${i + 1}" class="thumbnail ${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)" />
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="detail-info">
+                    <div class="detail-brand">${product.brand}</div>
+                    <h1 class="detail-title">${product.name}</h1>
+                    ${affiliateBadge}
+                    <div class="detail-rating">${stars} <span>(${product.reviews} reviews)</span></div>
+                    <div class="detail-price">
+                        <span class="current-price">$${product.price.toFixed(2)}</span>
+                        ${oldPriceHtml}
+                        ${discountBadge}
+                    </div>
+                    <p class="detail-description">${product.description}</p>
+                    
+                    ${optionsHtml}
+                    ${actionButtons}
+                    ${featuresHtml}
+                </div>
+            `;
+
+            selectedSize = product.sizes[0];
+            selectedColor = product.colors[0];
+
+            // Load related products
+            loadRelatedProducts(product);
+        }
+
+        // Buy on Affiliate Platform - track click and redirect
+        function buyOnAffiliate(productId, platform, url) {
+            // Track the click
+            trackAffiliateClick(productId, platform);
+
+            // Show notification
+            showNotification(`Redirecting to ${platform}...`, 'info');
+
+            // Redirect after short delay
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 500);
+        }
+
+        function changeImage(src, thumb) {
+            document.getElementById('mainImage').src = src;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+
+        function selectSize(size, btn) {
+            selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function selectColor(color, btn) {
+            selectedColor = color;
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function updateQty(change) {
+            quantity = Math.max(1, quantity + change);
+            document.getElementById('qtyDisplay').textContent = quantity;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const product = getProduct(urlParams.get('id'));
+            if (product) {
+                document.getElementById('totalPrice').textContent = (product.price * quantity).toFixed(2);
+            }
+        }
+
+        function addProductToCart(productId) {
+            console.log('addProductToCart called with:', productId);
+            const product = getProduct(productId);
+            console.log('Product found:', product);
+            console.log('Selected size:', selectedSize);
+            console.log('Quantity:', quantity);
+
+            if (!product) {
+                showNotification('Product not found!', 'error');
+                return;
+            }
+
+            if (!selectedSize) {
+                showNotification('Please select a size', 'warning');
+                return;
+            }
+
+            // Add to cart with the correct quantity
+            const cart = getCart();
+            const existingIndex = cart.findIndex(item =>
+                item.productId === product.id && item.size === selectedSize
+            );
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += quantity;
+            } else {
+                cart.push({
+                    productId: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    size: selectedSize,
+                    quantity: quantity
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showNotification(`${product.name} (x${quantity}) added to cart!`);
+        }
+
+        function toggleWishlistBtn(productId) {
+            const icon = document.getElementById('wishlistIcon');
+            toggleWishlist(productId);
+            icon.textContent = isInWishlist(productId) ? '❤️' : '♡';
+        }
+
+        function getColorCode(colorName) {
+            const colors = {
+                'Red': '#e74c3c', 'Black': '#2c3e50', 'White': '#ecf0f1',
+                'Blue': '#3498db', 'Pink': '#e91e63', 'Green': '#27ae60',
+                'Brown': '#8b4513', 'Gray': '#95a5a6', 'Navy': '#34495e',
+                'Tan': '#d2b48c', 'Orange': '#e67e22', 'Neon Green': '#39ff14'
+            };
+            return colors[colorName] || '#888';
+        }
+
+        function loadRelatedProducts(currentProduct) {
+            const products = getProducts();
+            const related = products
+                .filter(p => p.id !== currentProduct.id && p.category === currentProduct.category)
+                .slice(0, 4);
+
+            const grid = document.getElementById('relatedProducts');
+            grid.innerHTML = related.map(product => `
+                <div class="product-card" onclick="window.location.href='product-detail.html?id=${product.id}'">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" />
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${product.brand}</span>
+                        <h3>${product.name}</h3>
+                        <div class="product-price">
+                            <span class="current-price">$${product.price.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+
+</html>

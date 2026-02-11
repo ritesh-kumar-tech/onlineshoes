@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart - OnlineShoes</title>
+    <meta name="description" content="Review your cart and proceed to checkout." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">👟</span>
+                <span class="logo-text">OnlineShoes</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="cart.html" class="active">Cart</a>
+                <a href="login.html">Login</a>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+                <div class="theme-toggle" id="themeToggle">🌙</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+            <a href="product.html"><span class="nav-icon">👟</span> Products</a>
+            <a href="cart.html" class="active"><span class="nav-icon">🛒</span> Cart</a>
+            <a href="login.html"><span class="nav-icon">👤</span> Login</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <main class="cart-main">
+        <div class="container">
+            <div class="cart-layout">
+                <!-- Cart Items -->
+                <div class="cart-items" id="cartItems">
+                    <!-- Items loaded dynamically -->
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary" id="cartSummary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span id="shipping">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (10%)</span>
+                        <span id="tax">$0.00</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                    <div class="promo-code">
+                        <input type="text" placeholder="Promo code" id="promoInput" />
+                        <button onclick="applyPromo()">Apply</button>
+                    </div>
+                    <button class="btn btn-primary checkout-btn" onclick="proceedToCheckout()">
+                        Proceed to Checkout
+                    </button>
+                    <a href="product.html" class="continue-shopping">← Continue Shopping</a>
+                </div>
+            </div>
+
+            <!-- Empty Cart -->
+            <div class="empty-cart" id="emptyCart" style="display: none;">
+                <div class="empty-cart-icon">🛒</div>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added anything to your cart yet.</p>
+                <a href="product.html" class="btn btn-primary">Start Shopping</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 OnlineShoes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let promoDiscount = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+        });
+
+        function renderCart() {
+            const cart = getCart();
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+            const emptyCart = document.getElementById('emptyCart');
+
+            if (cart.length === 0) {
+                cartItems.style.display = 'none';
+                cartSummary.style.display = 'none';
+                emptyCart.style.display = 'block';
+                return;
+            }
+
+            cartItems.style.display = 'block';
+            cartSummary.style.display = 'block';
+            emptyCart.style.display = 'none';
+
+            cartItems.innerHTML = `
+                <div class="cart-header">
+                    <span>Product</span>
+                    <span>Price</span>
+                    <span>Quantity</span>
+                    <span>Total</span>
+                    <span></span>
+                </div>
+                ${cart.map(item => `
+                    <div class="cart-item">
+                        <div class="item-product">
+                            <img src="${item.image}" alt="${item.name}" />
+                            <div class="item-details">
+                                <h4>${item.name}</h4>
+                                <p>Size: ${item.size || 'N/A'}</p>
+                            </div>
+                        </div>
+                        <div class="item-price">$${item.price.toFixed(2)}</div>
+                        <div class="item-quantity">
+                            <button onclick="changeQuantity(${item.productId}, '${item.size}', -1)">−</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.productId}, '${item.size}', 1)">+</button>
+                        </div>
+                        <div class="item-total">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <button class="remove-btn" onclick="removeItem(${item.productId}, '${item.size}')">🗑️</button>
+                    </div>
+                `).join('')}
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" onclick="clearAllCart()">Clear Cart</button>
+                </div>
+            `;
+
+            updateSummary(cart);
+        }
+
+        function changeQuantity(productId, size, change) {
+            const cart = getCart();
+            const item = cart.find(i => i.productId === productId && i.size == size);
+            if (item) {
+                item.quantity = Math.max(1, item.quantity + change);
+                saveCart(cart);
+                renderCart();
+            }
+        }
+
+        function removeItem(productId, size) {
+            removeFromCart(productId, size);
+            renderCart();
+            showNotification('Item removed from cart', 'info');
+        }
+
+        function clearAllCart() {
+            if (confirm('Are you sure you want to clear your cart?')) {
+                clearCart();
+                renderCart();
+                showNotification('Cart cleared', 'info');
+            }
+        }
+
+        function updateSummary(cart) {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 50 ? 0 : 9.99;
+            const tax = subtotal * 0.1;
+            const discount = subtotal * promoDiscount;
+            const total = subtotal + shipping + tax - discount;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+            document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function applyPromo() {
+            const code = document.getElementById('promoInput').value.toUpperCase();
+            const promoCodes = {
+                'SAVE10': 0.1,
+                'SAVE20': 0.2,
+                'WELCOME': 0.15
+            };
+
+            if (promoCodes[code]) {
+                promoDiscount = promoCodes[code];
+                showNotification(`Promo code applied! ${promoDiscount * 100}% off`);
+                renderCart();
+            } else {
+                showNotification('Invalid promo code', 'error');
+            }
+        }
+
+        function proceedToCheckout() {
+            const cart = getCart();
+            if (cart.length === 0) {
+                showNotification('Your cart is empty', 'error');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        }
+    </script>
+</body>
+
+</html>

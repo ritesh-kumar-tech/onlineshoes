@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account - OnlineShoes</title>
+    <meta name="description" content="Manage your OnlineShoes account, orders, and preferences." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">👟</span>
+                <span class="logo-text">OnlineShoes</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="product.html">Products</a>
+                <a href="cart.html">Cart</a>
+                <a href="account.html" class="active">Account</a>
+            </nav>
+            <div class="header-actions">
+                <a href="cart.html" class="cart-icon">🛒 <span class="cart-count">0</span></a>
+                <div class="theme-toggle" id="themeToggle">🌙</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="index.html"><span class="nav-icon">🏠</span> Home</a>
+            <a href="product.html"><span class="nav-icon">👟</span> Products</a>
+            <a href="cart.html"><span class="nav-icon">🛒</span> Cart</a>
+            <a href="account.html" class="active"><span class="nav-icon">👤</span> Account</a>
+        </div>
+    </nav>
+
+    <!-- Account Content -->
+    <main class="account-main">
+        <div class="container">
+            <div class="account-layout">
+                <!-- Sidebar -->
+                <aside class="account-sidebar">
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar">👤</div>
+                        <h3 id="userName">User</h3>
+                        <p id="userEmail">user@example.com</p>
+                    </div>
+                    <nav class="account-nav">
+                        <a href="#" class="account-nav-item active" data-tab="dashboard">
+                            <span>📊</span> Dashboard
+                        </a>
+                        <a href="#" class="account-nav-item" data-tab="orders">
+                            <span>📦</span> My Orders
+                        </a>
+                        <a href="#" class="account-nav-item" data-tab="wishlist">
+                            <span>❤️</span> Wishlist
+                        </a>
+                        <a href="#" class="account-nav-item" data-tab="profile">
+                            <span>👤</span> Profile
+                        </a>
+                        <a href="#" class="account-nav-item" data-tab="addresses">
+                            <span>📍</span> Addresses
+                        </a>
+                        <a href="#" class="account-nav-item logout" onclick="logout()">
+                            <span>🚪</span> Logout
+                        </a>
+                    </nav>
+                </aside>
+
+                <!-- Content -->
+                <div class="account-content">
+                    <!-- Dashboard Tab -->
+                    <div class="account-tab active" id="tab-dashboard">
+                        <h2>Dashboard</h2>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <span class="stat-icon">📦</span>
+                                <div class="stat-info">
+                                    <h4 id="totalOrders">0</h4>
+                                    <p>Total Orders</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-icon">❤️</span>
+                                <div class="stat-info">
+                                    <h4 id="wishlistCount">0</h4>
+                                    <p>Wishlist Items</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-icon">🛒</span>
+                                <div class="stat-info">
+                                    <h4 id="cartItems">0</h4>
+                                    <p>Cart Items</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="recent-orders">
+                            <h3>Recent Orders</h3>
+                            <div id="recentOrdersList"></div>
+                        </div>
+                    </div>
+
+                    <!-- Orders Tab -->
+                    <div class="account-tab" id="tab-orders">
+                        <h2>My Orders</h2>
+                        <div class="orders-list" id="ordersList"></div>
+                    </div>
+
+                    <!-- Wishlist Tab -->
+                    <div class="account-tab" id="tab-wishlist">
+                        <h2>My Wishlist</h2>
+                        <div class="wishlist-grid" id="wishlistGrid"></div>
+                    </div>
+
+                    <!-- Profile Tab -->
+                    <div class="account-tab" id="tab-profile">
+                        <h2>Profile Settings</h2>
+                        <form id="profileForm" class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profileName">Full Name</label>
+                                    <input type="text" id="profileName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileEmail">Email</label>
+                                    <input type="email" id="profileEmail" readonly />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profilePhone">Phone</label>
+                                    <input type="tel" id="profilePhone" placeholder="+1 234 567 8900" />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+
+                        <div class="password-section">
+                            <h3>Change Password</h3>
+                            <form id="passwordForm">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmNewPassword">Confirm New Password</label>
+                                    <input type="password" id="confirmNewPassword" />
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Addresses Tab -->
+                    <div class="account-tab" id="tab-addresses">
+                        <h2>Saved Addresses</h2>
+                        <div class="addresses-grid" id="addressesGrid">
+                            <div class="address-card add-new" onclick="addNewAddress()">
+                                <span>+</span>
+                                <p>Add New Address</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 OnlineShoes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check authentication
+            if (!isLoggedIn()) {
+                window.location.href = 'login.html?redirect=account.html';
+                return;
+            }
+
+            loadUserData();
+            loadDashboard();
+            setupTabs();
+        });
+
+        function loadUserData() {
+            const user = getCurrentUser();
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('profileName').value = user.name;
+            document.getElementById('profileEmail').value = user.email;
+            document.getElementById('profilePhone').value = user.phone || '';
+        }
+
+        function loadDashboard() {
+            const orders = getUserOrders();
+            const wishlist = getWishlist();
+            const cart = getCart();
+
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+            document.getElementById('cartItems').textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+
+            // Recent orders
+            const recentOrders = orders.slice(-3).reverse();
+            document.getElementById('recentOrdersList').innerHTML = recentOrders.length === 0
+                ? '<p>No orders yet.</p>'
+                : recentOrders.map(order => `
+                    <div class="order-row">
+                        <span>${order.id}</span>
+                        <span>${formatDate(order.date)}</span>
+                        <span>${formatCurrency(order.total)}</span>
+                        ${getStatusBadge(order.status)}
+                    </div>
+                `).join('');
+
+            // All orders
+            loadOrders();
+            loadWishlist();
+        }
+
+        function loadOrders() {
+            const orders = getUserOrders().reverse();
+            const ordersList = document.getElementById('ordersList');
+
+            if (orders.length === 0) {
+                ordersList.innerHTML = '<p>No orders found.</p>';
+                return;
+            }
+
+            ordersList.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <h4>Order ${order.id}</h4>
+                            <p>Placed on ${formatDate(order.date)}</p>
+                        </div>
+                        ${getStatusBadge(order.status)}
+                    </div>
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <span>${item.name} (Size: ${item.size}) × ${item.quantity}</span>
+                                <span>${formatCurrency(item.price * item.quantity)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-footer">
+                        <span>Total: <strong>${formatCurrency(order.total)}</strong></span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadWishlist() {
+            const wishlist = getWishlist();
+            const products = getProducts();
+            const wishlistGrid = document.getElementById('wishlistGrid');
+
+            if (wishlist.length === 0) {
+                wishlistGrid.innerHTML = '<p>Your wishlist is empty.</p>';
+                return;
+            }
+
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id.toString()));
+            wishlistGrid.innerHTML = wishlistProducts.map(product => `
+                <div class="wishlist-item">
+                    <img src="${product.image}" alt="${product.name}" />
+                    <div class="wishlist-info">
+                        <h4>${product.name}</h4>
+                        <p>${formatCurrency(product.price)}</p>
+                    </div>
+                    <div class="wishlist-actions">
+                        <button class="btn btn-primary" onclick="moveToCart(${product.id})">Add to Cart</button>
+                        <button class="btn btn-secondary" onclick="removeFromWishlist(${product.id})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function moveToCart(productId) {
+            const product = getProduct(productId);
+            if (product) {
+                addToCart(product.id, product.name, product.price, product.image, product.sizes[0]);
+            }
+        }
+
+        function removeFromWishlist(productId) {
+            toggleWishlist(productId);
+            loadWishlist();
+            loadDashboard();
+        }
+
+        function setupTabs() {
+            document.querySelectorAll('.account-nav-item').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.classList.contains('logout')) return;
+                    e.preventDefault();
+
+                    const tabId = link.dataset.tab;
+
+                    // Update nav
+                    document.querySelectorAll('.account-nav-item').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+
+                    // Update content
+                    document.querySelectorAll('.account-tab').forEach(tab => tab.classList.remove('active'));
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                });
+            });
+        }
+
+        // Profile form
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = getCurrentUser();
+            user.name = document.getElementById('profileName').value;
+            user.phone = document.getElementById('profilePhone').value;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            loadUserData();
+            showNotification('Profile updated successfully!');
+        });
+
+        // Password form
+        document.getElementById('passwordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newPwd = document.getElementById('newPassword').value;
+            const confirmPwd = document.getElementById('confirmNewPassword').value;
+
+            if (newPwd !== confirmPwd) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+
+            // Update password (in real app, would verify current password)
+            showNotification('Password updated successfully!');
+            document.getElementById('passwordForm').reset();
+        });
+
+        function addNewAddress() {
+            showNotification('Address feature coming soon!', 'info');
+        }
+    </script>
+</body>
+
+</html>
